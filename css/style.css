@@ -1,0 +1,134 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 25px;
+  display: grid;
+  justify-content: center;
+  gap: 20px;
+  align-items: flex-start;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.game-field {
+  background-color: rgb(141, 141, 141);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, 15vmin);
+  grid-template-rows: repeat(4, 15vmin);
+  grid-gap: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.cell {
+  background-color: rgb(184, 184, 184);
+  border-radius: 5px;
+}
+
+.tile {
+  position: absolute;
+  width: 15vmin;
+  height: 15vmin;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+
+  font-size: 38px;
+  transition: 0.1s ease;
+  animation: Appear 0.1s 0.1s ease forwards;
+  opacity: 0;
+  z-index: 2;
+}
+
+.table {
+  background-color: rgb(255, 239, 194);
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 10px solid rgb(141, 141, 141);
+}
+
+.score {
+  font-size: 42px;
+  font-weight: 600;
+}
+
+.max-tile {
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.start-btn {
+  background-color: rgb(255, 239, 194);
+  padding: 15px;
+  justify-self: center;
+  border-radius: 5px;
+  border: none;
+  font-size: 24px;
+  transition: 0.3s ease;
+  outline: none;
+}
+
+.start-btn:hover {
+  background-color: rgb(252, 225, 149);
+  cursor: pointer;
+}
+
+.start-btn:active {
+  background-color: rgb(255, 201, 46);
+}
+
+@keyframes Appear {
+  0% {
+    opacity: 1;
+    transform: scale(50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(100%);
+  }
+}
+
+.tile.tile-2 {
+  background-color: rgb(255, 239, 194);
+}
+.tile.tile-4 {
+  background-color: rgb(252, 225, 149);
+}
+.tile.tile-8 {
+  background-color: rgb(255, 220, 120);
+}
+.tile.tile-16 {
+  background-color: rgb(255, 210, 82);
+}
+.tile.tile-32 {
+  background-color: rgb(255, 201, 46);
+}
+.tile.tile-64 {
+  background-color: rgb(255, 189, 0);
+}
+.tile.tile-128 {
+  background-color: rgb(255, 157, 0);
+}
+.tile.tile-256 {
+  background-color: rgb(255, 140, 0);
+}
+.tile.tile-512 {
+  background-color: rgb(255, 106, 05);
+}
+.tile.tile-1024 {
+  background-color: rgb(255, 77, 0);
+}
+.tile.tile-2048 {
+  background-color: rgb(255, 47, 0);
+}
