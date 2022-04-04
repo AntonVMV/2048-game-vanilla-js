@@ -7,6 +7,7 @@ export class Game {
   constructor(container) {
     this.move = false;
     this.container = container;
+    this.touchStart = null;
 
     const startButton = createElement(
       "button",
@@ -23,6 +24,12 @@ export class Game {
     this.grid = new Grid(this.gameField);
 
     document.addEventListener("keydown", this.moveHandler.bind(this));
+    document.addEventListener(
+      "touchstart",
+      (e) => (this.touchStart = [e.touches[0].clientX, e.touches[0].clientY])
+    );
+
+    document.addEventListener("touchend", this.moveHandler.bind(this));
   }
 
   newGame() {
@@ -50,25 +57,50 @@ export class Game {
     this.grid.getRandomCell().tile = new Tile(this.gameField);
   }
 
-  moveHandler(e) {
-    const rotated = this.rotateMartix(this.grid.field);
+  swipeHandler(e) {
+    const moveX = this.touchStart[0] - e.changedTouches[0].clientX;
+    const moveY = this.touchStart[1] - e.changedTouches[0].clientY;
 
-    switch (e.key) {
+    if (Math.abs(moveX) > Math.abs(moveY)) {
+      if (moveX > 0) {
+        this.moveLeft();
+      } else {
+        this.moveRight();
+      }
+    } else {
+      if (moveY > 0) {
+        this.moveUp();
+      } else {
+        this.moveDown();
+      }
+    }
+  }
+
+  keyHandler(key) {
+    switch (key) {
       case "ArrowLeft":
-        this.grid.field.forEach((row) => this.swipeLine(row));
+        this.moveLeft();
         break;
 
       case "ArrowRight":
-        this.grid.field.forEach((row) => this.swipeLine([...row].reverse()));
+        this.moveRight();
         break;
 
       case "ArrowDown":
-        rotated.forEach((row) => this.swipeLine(row));
+        this.moveDown();
         break;
 
       case "ArrowUp":
-        rotated.forEach((row) => this.swipeLine([...row].reverse()));
+        this.moveUp();
         break;
+    }
+  }
+
+  moveHandler(e) {
+    if (e instanceof TouchEvent) {
+      this.swipeHandler(e);
+    } else {
+      this.keyHandler(e.key);
     }
 
     this.grid.field.forEach((row) => {
@@ -87,6 +119,24 @@ export class Game {
         }, 500);
       }
     }
+  }
+
+  moveLeft() {
+    this.grid.field.forEach((row) => this.swipeLine(row));
+  }
+
+  moveRight() {
+    this.grid.field.forEach((row) => this.swipeLine([...row].reverse()));
+  }
+
+  moveUp() {
+    const rotated = this.rotateMartix(this.grid.field);
+    rotated.forEach((row) => this.swipeLine([...row].reverse()));
+  }
+
+  moveDown() {
+    const rotated = this.rotateMartix(this.grid.field);
+    rotated.forEach((row) => this.swipeLine(row));
   }
 
   rotateMartix(matrix) {

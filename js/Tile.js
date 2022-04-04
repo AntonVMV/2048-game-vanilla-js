@@ -15,13 +15,23 @@ const tilesStyles = {
 export class Tile {
   constructor(container, value) {
     this.tile = document.createElement("div");
-    this.value = value || this.randomValue();
     this.tile.classList.add(`tile`);
     container.append(this.tile);
+    this.value = value || this.randomValue();
+    this.tile.style.fontSize = this.tile.clientWidth / 4 + "px";
   }
 
   randomValue() {
     return Math.random() > 0.8 ? 4 : 2;
+  }
+
+  setTileAttrs(x, y, width, height) {
+    this.tile.style.left = `${x}px`;
+    this.tile.style.top = `${y}px`;
+    this.tile.style.width = `${width}px`;
+    this.tile.style.height = `${height}px`;
+    this.tile.style.fontSize =
+      width / 2 - this.value.toString().length * 4 + "px";
   }
 
   set value(val) {
@@ -32,15 +42,5 @@ export class Tile {
 
   get value() {
     return this._value;
-  }
-
-  set setX(value) {
-    this.x = value;
-    this.tile.style.left = `${value}px`;
-  }
-
-  set setY(value) {
-    this.y = value;
-    this.tile.style.top = `${value}px`;
   }
 }

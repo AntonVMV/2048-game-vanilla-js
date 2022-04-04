@@ -40,6 +40,7 @@ export class Cell {
 
   constructor(element) {
     this.element = element;
+    window.addEventListener("resize", () => this.setTilePosition());
   }
 
   get tile() {
@@ -52,12 +53,22 @@ export class Cell {
       return;
     }
 
-    this.tileEl.setX = this.element.offsetLeft;
-    this.tileEl.setY = this.element.offsetTop;
+    this.setTilePosition();
   }
 
   set mergeTile(value) {
     this.mergeElem = value;
+  }
+
+  setTilePosition() {
+    if (this.tileEl) {
+      this.tileEl.setTileAttrs(
+        this.element.offsetLeft,
+        this.element.offsetTop,
+        this.element.clientWidth,
+        this.element.clientHeight
+      );
+    }
   }
 
   canMerge(tile) {
